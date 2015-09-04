@@ -25,28 +25,35 @@ fi
 echo "aligning" $p1
 type=$(echo $p1 | sed -r 's/.*\.//g')
 
-python ${SRC_DIR}/pyadapter_trim.py -a $p1 -b $p2
+#python ${SRC_DIR}/pyadapter_trim.py -a $p1 -b $p2
 
 # check if zipped
 if [ $type == 'gz' ];
 then
+    echo "gz file"
     # process zipped file
     out1=$(echo $p1 | sed 's/\.fastq\.gz/.sam.gz/g' | sed 's/_R1//g')
-    bowtie2 -X2000 -p4 $ref -1 <(gunzip -c $p1) -2 <(gunzip -c $p2) | gzip -c > $out1
+    p1trim=$(echo $p1 | sed 's/fastq.gz/trim.fastq/g')
+    p2trim=$(echo $p2 |sed 's/fastq.gz/trim.fastq/g')
+    #bowtie2 -X2000 -p4 $ref -1 <(gunzip -c $p1) -2 <(gunzip -c $p2) | gzip -c > $out1
+    bowtie2 -X2000 -p4 $ref -1 $p1trim -2 $p2trim | gzip -c > $out1
 
 elif [ $type == 'fastq' ];
 then
     # process unzipped file
     out1=$(echo $p1 | sed 's/\.fastq/.sam.gz/g' | sed 's/_R1//g')
-    p1trim=$(echo $p1 | sed 's/fastq.gz/trim.fastq/g')
-    p2trim=$(echo $p2 |sed 's/fastq.gz/trim.fastq/g')
+    p1trim=$(echo $p1 | sed 's/fastq/trim.fastq/g')
+    p2trim=$(echo $p2 |sed 's/fastq/trim.fastq/g')
     bowtie2 -X2000 -p4 $ref -1 $p1trim -2 $p2trim | gzip -c > $out1
 
 elif [ $type == 'fq' ];
-1;2cthen
+then
     # process unzipped file
     out1=$(echo $p1 | sed 's/\.fq/.sam.gz/g' | sed 's/_R1//g')
-    bowtie2 -X2000 -p4 $ref -1 $p1 -2 $p2 | gzip -c > $out1
+    #bowtie2 -X2000 -p4 $ref -1 $p1 -2 $p2 | gzip -c > $out1
+    p1trim=$(echo $p1 | sed 's/fq/trim.fastq/g')
+    p2trim=$(echo $p2 |sed 's/fq/trim.fastq/g')
+    bowtie2 -X2000 -p4 $ref -1 $p1trim -2 $p2trim | gzip -c > $out1
 else
     echo "Unrecognized file type, accepts .fastq or .fq or .gz"
 fi
