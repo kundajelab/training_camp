@@ -25,6 +25,7 @@ fi
 echo "aligning" $p1
 type=$(echo $p1 | sed -r 's/.*\.//g')
 
+cd $(dirname $p1)
 python ${SRC_DIR}/pyadapter_trim.py -a $p1 -b $p2
 
 # check if zipped
