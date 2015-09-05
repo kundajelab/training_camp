@@ -1,6 +1,6 @@
 #!/bin/bash
-module add python/2.7
-export PYTHONPATH="${AK_DIR}/lib/python2.7/site-packages:${PYTHONPATH}"
+#module add python/2.7
+#export PYTHONPATH="${AK_DIR}/lib/python2.7/site-packages:${PYTHONPATH}"
 
 o1=$1
 t1=$2
@@ -9,7 +9,7 @@ if [[ "$#" -lt 2 ]]
 then
     echo "Calls peaks on a single sample"
     echo "USAGE: ./call_peaks.sh <organism> <tagAlign_alignment_file>"
-    echo "<organism>: yeast or ecoli"
+    echo "<organism>: yeast"
     echo "<tagAlign_alignment_file>: Full path to tagAlign.gz file containing aligned reads"
     exit
 fi
@@ -23,30 +23,27 @@ fi
 if [[ $o1 == "yeast" ]]
 then
     gsize=12157105
-    gfile="${SRC_DIR}/yeast_genome.size"
+    gfile="${AK_TOOL_DIR}/Saccharomyces_cerevisiae/UCSC/sacCer3/yeast_genome.size"
     ssize=50
-else
-    gsize=4686137
-    gfile="${SRC_DIR}/ecoli_genome.size"
-    ssize=50
+    ssizetimes2=100
 fi
 
 p1=$(echo ${t1} | sed -r 's/\.tagAlign.gz$//g')
 
 #Make temporary directory
-TEMP_DIR="/srv/gsfs0/scratch/${whoami}"
+TEMP_DIR="${DATA_DIR}/tmp"
 [[ ! -d ${TEMP_DIR} ]] && mkdir ${TEMP_DIR}
 TEMP_FILE="${TEMP_DIR}/${RANDOM}$(basename ${t1})"
 
 #Adjust read coordinates. Shift + strand reads by -${ssize} and - strand reads by +{ssize}
-slopBed -l ${ssize} -r -${ssize} -s -g "${SRC_DIR}/yeast_genome.size" -i ${t1} | gzip -c > ${TEMP_FILE}
+slopBed -l ${ssize} -r -${ssize} -s -g ${gfile} -i ${t1} | gzip -c > ${TEMP_FILE}
 
 # Call peaks and create signal track
-./macs2 callpeak -t ${TEMP_FILE} -f BED -n ${p1} -g ${gsize} -p 1e-2 --nomodel --shiftsize=${ssize} --nolambda -B --SPMR
+macs2 callpeak -t ${TEMP_FILE} -f BED -n ${p1} -g ${gsize} -p 1e-2 --nomodel --shift=0 --extsize=${ssizetimes2} --nolambda -B --SPMR
 rm -f ${p1}_peaks.xls ${p1}_peaks.bed ${p1}_summits.bed
 
 # Compute fold-change track
-./macs2 bdgcmp -t ${p1}_treat_pileup.bdg -c ${p1}_control_lambda.bdg -o ${p1}_FE.bdg -m FE
+macs2 bdgcmp -t ${p1}_treat_pileup.bdg -c ${p1}_control_lambda.bdg -o ${p1}_FE.bdg -m FE
 slopBed -i ${p1}_FE.bdg -g ${gfile} -b 0 | bedClip stdin ${gfile} ${p1}.FE.bedGraph
 rm ${p1}_FE.bdg ${p1}_treat_pileup.bdg ${p1}_control_lambda.bdg
 
