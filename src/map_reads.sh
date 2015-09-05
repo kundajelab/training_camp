@@ -22,7 +22,7 @@ then
 fi
 
 # get file type
-echo "aligning" $p1
+echo "aligining files related to ${p1}"
 type=$(echo $p1 | sed -r 's/.*\.//g')
 
 cd $(dirname $p1)
