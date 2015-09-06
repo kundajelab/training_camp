@@ -40,16 +40,16 @@ slopBed -l ${ssize} -r -${ssize} -s -g ${gfile} -i ${t1} | gzip -c > ${TEMP_FILE
 
 # Call peaks and create signal track
 macs2 callpeak -t ${TEMP_FILE} -f BED -n ${p1} -g ${gsize} -p 1e-2 --nomodel --shift=0 --extsize=${ssizetimes2} --nolambda -B --SPMR
-rm -f ${p1}_peaks.xls ${p1}_peaks.bed ${p1}_summits.bed
+#rm -f ${p1}_peaks.xls ${p1}_peaks.bed ${p1}_summits.bed
 
 # Compute fold-change track
 macs2 bdgcmp -t ${p1}_treat_pileup.bdg -c ${p1}_control_lambda.bdg -o ${p1}_FE.bdg -m FE
-slopBed -i ${p1}_FE.bdg -g ${gfile} -b 0 | bedClip stdin ${gfile} ${p1}.FE.bedGraph
-rm ${p1}_FE.bdg ${p1}_treat_pileup.bdg ${p1}_control_lambda.bdg
+slopBed -i ${p1}_FE.bdg -g ${gfile} -b 0 | /srv/scratch/trainingCamp/2015/tools/bedClip stdin ${gfile} ${p1}.FE.bedGraph
+#rm ${p1}_FE.bdg ${p1}_treat_pileup.bdg ${p1}_control_lambda.bdg
 
 # Create bigwig file
 bedGraphToBigWig ${p1}.FE.bedGraph ${gfile} ${p1}.FE.bigWig
 gzip ${p1}.FE.bedGraph
-sort -k8nr,8nr ${p1}_peaks.encodePeak | gzip -c > ${p1}.peaks.bed.gz
-rm ${p1}_peaks.encodePeak
+sort -k8nr,8nr ${p1}_peaks.narrowPeak | gzip -c > ${p1}.peaks.bed.gz
+#rm ${p1}_peaks.encodePeak
 zcat ${p1}.peaks.bed.gz | awk 'BEGIN{OFS="\t"}{print $1,$2,$3,$8}' > ${p1}.4col.peaks.bed
