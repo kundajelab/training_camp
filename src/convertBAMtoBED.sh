@@ -3,7 +3,7 @@ p1=$1
 
 if [ -z "$p1" ]
 then
-    echo "This convert BAM files to BED file"
+    echo "This converts BAM files to BED files"
     echo "$(basename $0) <bamFile>"
     echo "First input is the bamFile"
     exit
