@@ -1,5 +1,5 @@
 #!/bin/bash
 for i in $(find ${DATA_DIR}/sam -name '*.sam.gz')
 do
-    qsub -V -cwd -l h_vmem=8G -N "process_align_$(basename $i)" -o "$(basename $i).out" -e "$(basename $i).err" ${SRC_DIR}/process_alignmentfile.sh ${i}
+    qsub -V -cwd -l h_vmem=8G -N "S$(basename $i)" -o "${DATA_DIR}/sam/$(basename $i).process_alignmentfile.out" -e "${DATA_DIR}/sam/$(basename $i).process_alignmentfile.err" ${SRC_DIR}/process_alignmentfile.sh ${i}
 done

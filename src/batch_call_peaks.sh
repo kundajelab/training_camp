@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in $(find ${DATA_DIR}/tagAlign -name '*.tagAlign.gz')
+for i in $(find ${DATA_DIR}/tagAlign/mergedReplicates -name '*.tagAlign.gz')
 do
-    qsub -V -cwd -l h_vmem=4G -N call_peaks_$(basename $i) -o $i.out -e $i.err ${SRC_DIR}/call_peaks.sh yeast $i
+    qsub -V -cwd -l h_vmem=4G -N "S$(basename $i)" -o "${i}.call_peaks.out" -e "${i}.call_peaks.err" ${SRC_DIR}/call_peaks.sh yeast $i
 done
