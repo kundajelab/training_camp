@@ -23,7 +23,7 @@ fi
 if [[ $o1 == "yeast" ]]
 then
     gsize=12157105
-    gfile="${SRC_DIR}/yeast_genome.size"
+    gfile="/mnt/data/annotations/by_organism/sacCer/sacCer3/sacCer3.chrom.sizes"
     ssize=50
 else
     gsize=4686137
@@ -34,25 +34,25 @@ fi
 p1=$(echo ${t1} | sed -r 's/\.tagAlign.gz$//g')
 
 #Make temporary directory
-TEMP_DIR="/srv/gsfs0/scratch/${whoami}"
+TEMP_DIR="/tc2015/nasa/data/tmp"
 [[ ! -d ${TEMP_DIR} ]] && mkdir ${TEMP_DIR}
 TEMP_FILE="${TEMP_DIR}/${RANDOM}$(basename ${t1})"
 
 #Adjust read coordinates. Shift + strand reads by -${ssize} and - strand reads by +{ssize}
-slopBed -l ${ssize} -r -${ssize} -s -g "${SRC_DIR}/yeast_genome.size" -i ${t1} | gzip -c > ${TEMP_FILE}
+slopBed -l ${ssize} -r -${ssize} -s -g $gfile -i ${t1} | gzip -c > ${TEMP_FILE}
 
 # Call peaks and create signal track
-./macs2 callpeak -t ${TEMP_FILE} -f BED -n ${p1} -g ${gsize} -p 1e-2 --nomodel --shiftsize=${ssize} --nolambda -B --SPMR
-rm -f ${p1}_peaks.xls ${p1}_peaks.bed ${p1}_summits.bed
+macs2 callpeak -t ${TEMP_FILE} -f BED -n ${p1} -g ${gsize} -p 1e-2 --nomodel --extsize=${ssize} --nolambda -B --SPMR
+#rm -f ${p1}_peaks.xls ${p1}_peaks.bed ${p1}_summits.bed
 
 # Compute fold-change track
-./macs2 bdgcmp -t ${p1}_treat_pileup.bdg -c ${p1}_control_lambda.bdg -o ${p1}_FE.bdg -m FE
+macs2 bdgcmp -t ${p1}_treat_pileup.bdg -c ${p1}_control_lambda.bdg -o ${p1}_FE.bdg -m FE
 slopBed -i ${p1}_FE.bdg -g ${gfile} -b 0 | bedClip stdin ${gfile} ${p1}.FE.bedGraph
-rm ${p1}_FE.bdg ${p1}_treat_pileup.bdg ${p1}_control_lambda.bdg
+#rm ${p1}_FE.bdg ${p1}_treat_pileup.bdg ${p1}_control_lambda.bdg
 
 # Create bigwig file
 bedGraphToBigWig ${p1}.FE.bedGraph ${gfile} ${p1}.FE.bigWig
 gzip ${p1}.FE.bedGraph
 sort -k8nr,8nr ${p1}_peaks.encodePeak | gzip -c > ${p1}.peaks.bed.gz
-rm ${p1}_peaks.encodePeak
+#rm ${p1}_peaks.encodePeak
 zcat ${p1}.peaks.bed.gz | awk 'BEGIN{OFS="\t"}{print $1,$2,$3,$8}' > ${p1}.4col.peaks.bed
