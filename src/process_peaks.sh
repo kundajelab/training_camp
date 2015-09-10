@@ -9,7 +9,6 @@ MERGEDPEAKS="${WORK_DIR}/results/peaks/all_merged.peaks.bed.gz"
 COUNTDIR="${DATA_DIR}/countTracks"
 FCDIR="${DATA_DIR}/foldChangeTracks"
 
-
 OUTPUTDIR="${WORK_DIR}/results/signal"
 COUNTSIGNALDIR="${OUTPUTDIR}/counts"
 FCSIGNALDIR="${OUTPUTDIR}/foldChange"
