@@ -5,7 +5,7 @@ MERGEDPEAKS="${AK_DATA_DIR}/results/peaks/all_merged.peaks.bed.gz"
 COUNTDIR="${AK_DATA_DIR}/countTracks"
 FCDIR="${AK_DATA_DIR}/results/foldChangeTracks"
 
-OUTPUTDIR="${WORK_DIR}/signal"
+OUTPUTDIR="${WORK_DIR}/results/signal"
 COUNTSIGNALDIR="${OUTPUTDIR}/counts"
 FCSIGNALDIR="${OUTPUTDIR}/foldChange"
 

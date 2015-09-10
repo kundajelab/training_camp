@@ -2,6 +2,14 @@
 ###
 # BUNCH OF FUNCTIONS COPIED FROM av_scripts/fileProcessing.py
 ###
+import re;
+import os;
+
+def printProgress(progressUpdate, i, fileName=None):
+    if progressUpdate is not None:
+        if (i%progressUpdate == 0):
+            print "Processed "+str(i)+" lines"+str("" if fileName is None else " of "+fileName);
+
 def defaultTabSeppd(s):
     s = trimNewline(s);
     s = splitByTabs(s);
@@ -130,14 +138,14 @@ def processLine(line,i,ignoreInputTitle,preprocessing,filterFunction,transformat
 ###
 
 def mapToNearestPeak(options):
-    peaksToGenesMapping = simpleDictionaryFromFile(getFileHandle(sigPeakInputFile)
+    peaksToGenesMapping = simpleDictionaryFromFile(getFileHandle(options.peaks2genesFile)
                             ,keyIndex=options.peakColumnInPeaks2GenesFile
                             ,valIndex=options.geneColumnInPeaks2GenesFile
                             ,transformation=defaultWhitespaceSeppd);  
     for sigPeakInputFile in options.sigPeakInputFiles:
         sigPeaks = readRowsIntoArr(getFileHandle(sigPeakInputFile));
-        outputFile = getFileNameParts(sigPeakInputFile).getFilePathWithTransformation(lambda x: "nearestGenes_");
-        ofh = getFileHandle(outputFile);
+        outputFile = getFileNameParts(sigPeakInputFile).getFilePathWithTransformation(lambda x: "nearestGenes_"+x);
+        ofh = getFileHandle(outputFile,'w');
         for peak in sigPeaks:
             ofh.write(peaksToGenesMapping[peak]+"\n");
         ofh.close();     
@@ -147,7 +155,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser();
     parser.add_argument("--sigPeakInputFiles", nargs="+");
     parser.add_argument("--peaks2genesFile", required=True);
-    parser.add_argument("--peakColumnInPeaks2GenesFile", type=int, default=2);
+    parser.add_argument("--peakColumnInPeaks2GenesFile", type=int, default=3);
     parser.add_argument("--geneColumnInPeaks2GenesFile", type=int, default=7);
     options = parser.parse_args();
     
