@@ -39,7 +39,7 @@ TEMP_FILE="${TEMP_DIR}/${RANDOM}$(basename ${t1})"
 slopBed -l ${ssize} -r -${ssize} -s -g ${gfile} -i ${t1} | gzip -c > ${TEMP_FILE}
 
 # Call peaks and create signal track
-macs2 callpeak -t ${TEMP_FILE} -f BED -n ${p1} -g ${gsize} -p 1e-2 --nomodel --shift=0 --extsize=${ssizetimes2} --nolambda -B --SPMR
+macs2 callpeak -t ${TEMP_FILE} -f BED -n ${p1} -g ${gsize} -p 1e-2 --nomodel --shift=0 --extsize=${ssizetimes2} -B --SPMR
 #rm -f ${p1}_peaks.xls ${p1}_peaks.bed ${p1}_summits.bed
 
 # Compute fold-change track
