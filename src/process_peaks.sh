@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 module load ucsc_tools/2.7.2
 
-MERGEDPEAKS="${AK_DATA_DIR}/results/peaks/all_merged.peaks.bed.gz"
-COUNTDIR="${AK_DATA_DIR}/countTracks"
-FCDIR="${AK_DATA_DIR}/results/foldChangeTracks"
+#MERGEDPEAKS="${AK_DATA_DIR}/results/peaks/all_merged.peaks.bed.gz"
+#COUNTDIR="${AK_DATA_DIR}/countTracks"
+#FCDIR="${AK_DATA_DIR}/results/foldChangeTracks"
+
+MERGEDPEAKS="${WORK_DIR}/results/peaks/all_merged.peaks.bed.gz"
+COUNTDIR="${DATA_DIR}/countTracks"
+FCDIR="${DATA_DIR}/foldChangeTracks"
 
 OUTPUTDIR="${WORK_DIR}/results/signal"
 COUNTSIGNALDIR="${OUTPUTDIR}/counts"
