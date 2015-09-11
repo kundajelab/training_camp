@@ -69,18 +69,15 @@ def getFileHandle(filename,mode="r"):
     else:
         return open(filename,mode) 
 
-def readRowsIntoArr(fileHandle,progressUpdate=None):
+def readColIntoArr(fileHandle,col=0,titlePresent=True):
     arr = [];
-    def action(inp,lineNumber):
-        if progressUpdate is not None:
-            if (lineNumber%progressUpdate == 0):
-                print "processed "+str(lineNumber)+" lines";
-        arr.append(inp); 
+    def action(inp, lineNumber):
+        arr.append(inp[col]);
     performActionOnEachLineOfFile(
         fileHandle
-        , transformation=trimNewline
+        , transformation=defaultWhitespaceSeppd
         , action=action
-        , ignoreInputTitle=False
+        , ignoreInputTitle=titlePresent
     );
     return arr;
 
@@ -143,7 +140,7 @@ def mapToNearestPeak(options):
                             ,valIndex=options.geneColumnInPeaks2GenesFile
                             ,transformation=defaultWhitespaceSeppd);  
     for sigPeakInputFile in options.sigPeakInputFiles:
-        sigPeaks = readRowsIntoArr(getFileHandle(sigPeakInputFile));
+        sigPeaks = readColIntoArr(getFileHandle(sigPeakInputFile),col=0,titlePresent=False);
         outputFile = getFileNameParts(sigPeakInputFile).getFilePathWithTransformation(lambda x: "nearestGenes_"+x);
         ofh = getFileHandle(outputFile,'w');
         for peak in sigPeaks:

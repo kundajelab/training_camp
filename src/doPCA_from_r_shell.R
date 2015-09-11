@@ -12,8 +12,9 @@ dev.new()
 barplot(components$sdev,xlab="PCs")
 
 numComponentsToFocusOn = 3
-for (i in seq(1,numComponentsToFocusOn-1)) {
+for (i in seq(1,numComponentsToFocusOn)) {
     component_i = components$x[,i]
+    write.table(components$rotation[,i],paste("pc",i,"_rotation.txt",sep=""),quote=FALSE,col.names=FALSE,row.names=TRUE)
     for (j in seq(i+1,numComponentsToFocusOn)) {
         component_j = components$x[,j]
         plot(component_i,component_j,xlab=paste("Component",i,sep=""), ylab=paste("Component",j,sep=""),col="blue")
