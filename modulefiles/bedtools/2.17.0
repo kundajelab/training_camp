@@ -1,0 +1,8 @@
+#%Module1.0
+proc ModulesHelp { } {
+global dotversion
+ 
+puts stderr "\tbedtools 2.17.0"
+}
+ 
+module-whatis "bedtools 2.17.0"
