@@ -1,26 +1,27 @@
 #Training Camp Packages 
 
 #TODO: We need to create our own jupyter entry in docker registry 
-FROM kundajelab:jupyterhub  
+FROM kundajelab/jupyterhub:latest
 
 MAINTAINER Kundaje Lab 
-
+#RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 #set up environment modules 
 RUN touch /etc/skel/.ksenv
 RUN touch /etc/skel/.login 
 RUN touch /etc/skel/.cshrc 
 
 RUN apt-get -y install environment-modules 
-RUN add.modules 
+#RUN add.modules 
 RUN source /etc/profile 
 #copy over the module files from training camp repo to the docker image-- right now these are mostly to teach the students 
 #about what a module file is; though we can modify them to be useful/support multiple versions of tools 
- 
+#RUN mkdir /usr/share/modules
+#RUN mkdir /usr/share/modules/modulefiles 
 ADD modulefiles/bowtie /usr/share/modules/modulefiles/bowtie 
 ADD modulefiles/bedtools /usr/share/modules/modulefiles/bedtools
 ADD modulefiles/fastqc /usr/share/modules/modulesfiles/fastqc 
 ADD modulefiles/java /usr/share/modules/modulefiles/java 
-ADD modulefiles/picard-tools /usr/share/modules/modulefiles/java 
+ADD modulefiles/picard-tools /usr/share/modules/modulefiles/picard-tools 
 ADD modulefiles/r /usr/share/modules/modulefiles/r 
 ADD modulefiles/samtools /usr/share/modules/modulefiles/samtools 
 ADD modulefiles/ucsc_tools /usr/share/modules/modulesfiles/ucsc_tools 
