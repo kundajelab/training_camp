@@ -4,6 +4,8 @@
 FROM kundajelab/jupyterhub:latest
 
 MAINTAINER Kundaje Lab 
+
+
 #RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 #set up environment modules 
 RUN touch /etc/skel/.ksenv
@@ -51,9 +53,8 @@ RUN gpg -a --export E084DAB9 | sudo apt-key add -
 RUN sudo apt-get -y install r-base
 
 #install MACS2 
-RUN source activate py2 
-RUN pip install MACS2
-RUN apt-get install macs
+RUN /bin/bash -c "source activate py2 && pip install numpy && pip install MACS2 && source deactivate" 
+RUN apt-get -y install macs
 
 
 #install homer 
