@@ -19,18 +19,16 @@ outputFileNamePrefix <- args[2]
 # Put data into table for DESeq
 DNaseSignalTable <- read.table(inputFileName,header=TRUE)
 experimentNames <- colnames(DNaseSignalTable)
-replicateList = list("samp1.arp.ko"=c("samp1.arp.ko.final.count", "samp2.arp.ko.final.count"),
-"samp2.arp.ko"=c("samp3.arp.ko.final.count","samp4.arp.ko.final.count"),
-"samp3.arp.ko"=c("samp5.arp.ko.final.count","samp6.arp.ko.final.count"),
-"samp4.arp.ko"=c("samp7.arp.ko.final.count", "samp8.arp.ko.final.count", "samp13.arp.ko.final.count"),
-"samp5.arp.ko"=c("samp9.arp.ko.final.count", "samp10.arp.ko.final.count"),
-"samp6.arp.ko"=c("samp11.arp.ko.final.count", "samp12.arp.ko.final.count"),
-"samp1.wt"=c("samp1.wt.final.count", "samp2.wt.final.count"),
-"samp2.wt"=c("samp3.wt.final.count", "samp4.wt.final.count"),
-"samp3.wt"=c("samp5.wt.final.count", "samp6.wt.final.count"),
-"samp4.wt"=c("samp7.wt.final.count", "samp8.wt.final.count"),
-"samp5.wt"=c("samp9.wt.final.count", "samp10.wt.final.count"),
-"samp6.wt"=c("samp11.wt.final.count", "samp12.wt.final.count"))
+
+
+replicateList = list("Ct"=c("sampCt_1_S22","sampCt_2_S23","sampCt_3_S24","sampCt_300_S3","sampCt_800_S9"),
+"Cz"=c("sampCz_1_S16","sampCz_2_S17","sampCz_3_S18","sampCz_300_S1","sampCz_800_S7"),
+"DMSO"=c("sampDMSO_1_S31","sampDMSO_1_S6","sampDMSO_2_S12","sampDMSO_2_S32"),
+"It"=c("sampIt_1_S25","sampIt_2_S26","sampIt_3_S27","sampIt_300_S5","sampIt_800_S11"),
+"Kt"=c("sampKt_1_S13""sampKt_2_S14","sampKt_3_S15"),
+"Kz"=c("sampKz_300_S4","sampKz_800_S10"),
+"Mz"=c("sampMz_1_S19","sampMz_2_S20","sampMz_3_S21","sampMz_300_S2","sampMz_800_S8"),
+"U"=c("sampU_1_S28","sampU_2_S29","sampU_3_S30"))
 
 DNaseSignalTableSize <- dim(DNaseSignalTable)
 #numTimePoints <- DNaseSignalTableSize[2]/3

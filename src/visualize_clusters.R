@@ -7,6 +7,7 @@
 # visualize_clusters.R <input.table> <output.png>
 
 # Load libraries
+library('Cairo') 
 library(gplots)
 
 ### Needed arguments: data file, output filename
@@ -33,11 +34,12 @@ plot_name = output_file
 row_sort_data = data[row_sort_ind,]
 rowcol_sort_data = row_sort_data[,col_sort_ind]
 
-png(plot_name, width = 8, height = 10,units = "in", res=300)
+
+CairoPNG(plot_name,width=8,height=10,units="in",res=300)
 heatmap.2(as.matrix(rowcol_sort_data), rowsep=0, colsep=0, sepwidth=c(0,0), dendrogram='none', trace='none', Rowv=FALSE, Colv=FALSE, xlab='Time Points', ylab='Peaks', margins=c(12,8))
 title('Hierarchically Clustered Peaks and Time Points')
 dev.off()
 
 # Say finished
-print(sprintf('Done. Plot is called %s', plot_name))
+#print(sprintf('Done. Plot is called %s', plot_name))
 

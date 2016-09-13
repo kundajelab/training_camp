@@ -8,7 +8,7 @@ import os;
 def printProgress(progressUpdate, i, fileName=None):
     if progressUpdate is not None:
         if (i%progressUpdate == 0):
-            print "Processed "+str(i)+" lines"+str("" if fileName is None else " of "+fileName);
+            print("Processed "+str(i)+" lines"+str("" if fileName is None else " of "+fileName));
 
 def defaultTabSeppd(s):
     s = trimNewline(s);
@@ -125,7 +125,7 @@ def processLine(line,i,ignoreInputTitle,preprocessing,filterFunction,transformat
     if (i > 1 or (ignoreInputTitle==False)):
         if progressUpdate is not None:
             if i%progressUpdate == 0:
-                print "Done ",i,"lines";
+                print("Done ",i,"lines");
         if (preprocessing is not None):
             line = preprocessing(line);
         if (filterFunction is None or filterFunction(line,i)):
