@@ -25,7 +25,7 @@ replicateList = list("Ct"=c("sampCt_1_S22","sampCt_2_S23","sampCt_3_S24","sampCt
 "Cz"=c("sampCz_1_S16","sampCz_2_S17","sampCz_3_S18","sampCz_300_S1","sampCz_800_S7"),
 "DMSO"=c("sampDMSO_1_S31","sampDMSO_1_S6","sampDMSO_2_S12","sampDMSO_2_S32"),
 "It"=c("sampIt_1_S25","sampIt_2_S26","sampIt_3_S27","sampIt_300_S5","sampIt_800_S11"),
-"Kt"=c("sampKt_1_S13""sampKt_2_S14","sampKt_3_S15"),
+"Kt"=c("sampKt_1_S13","sampKt_2_S14","sampKt_3_S15"),
 "Kz"=c("sampKz_300_S4","sampKz_800_S10"),
 "Mz"=c("sampMz_1_S19","sampMz_2_S20","sampMz_3_S21","sampMz_300_S2","sampMz_800_S8"),
 "U"=c("sampU_1_S28","sampU_2_S29","sampU_3_S30"))
