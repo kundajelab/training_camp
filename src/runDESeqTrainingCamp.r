@@ -16,29 +16,30 @@ args <- commandArgs(trailingOnly = TRUE)
 inputFileName <- args[1]
 outputFileNamePrefix <- args[2]
 
+
 # Put data into table for DESeq
 DNaseSignalTable <- read.table(inputFileName,header=TRUE)
 experimentNames <- colnames(DNaseSignalTable)
 
 
-replicateList = list("Ct"=c("sampCt_1_S22","sampCt_2_S23","sampCt_3_S24","sampCt_300_S3","sampCt_800_S9"),
-"Cz"=c("sampCz_1_S16","sampCz_2_S17","sampCz_3_S18","sampCz_300_S1","sampCz_800_S7"),
-"DMSO"=c("sampDMSO_1_S31","sampDMSO_1_S6","sampDMSO_2_S12","sampDMSO_2_S32"),
-"It"=c("sampIt_1_S25","sampIt_2_S26","sampIt_3_S27","sampIt_300_S5","sampIt_800_S11"),
-"Kt"=c("sampKt_1_S13","sampKt_2_S14","sampKt_3_S15"),
-"Kz"=c("sampKz_300_S4","sampKz_800_S10"),
-"Mz"=c("sampMz_1_S19","sampMz_2_S20","sampMz_3_S21","sampMz_300_S2","sampMz_800_S8"),
-"U"=c("sampU_1_S28","sampU_2_S29","sampU_3_S30"))
+replicateList = list("Ct"=c("Ct_1_S22","Ct_2_S23","Ct_3_S24","Ct_300_S3","Ct_800_S9"),
+"Cz"=c("Cz_1_S16","Cz_2_S17","Cz_3_S18","Cz_300_S1","Cz_800_S7"),
+"DMSO"=c("DMSO_1_S31","DMSO_1_S6","DMSO_2_S12","DMSO_2_S32"),
+"It"=c("It_1_S25","It_2_S26","It_3_S27","It_300_S5","It_800_S11"),
+"Kt"=c("Kt_1_S13","Kt_2_S14","Kt_3_S15"),
+"Kz"=c("Kz_300_S4","Kz_800_S10"),
+"Mz"=c("Mz_1_S19","Mz_2_S20","Mz_3_S21","Mz_300_S2","Mz_800_S8"),
+"U"=c("U_1_S28","U_2_S29","U_3_S30"))
 
 DNaseSignalTableSize <- dim(DNaseSignalTable)
 #numTimePoints <- DNaseSignalTableSize[2]/3
-#cdsColumnNames <- c("Time Point 1", "Time Point 1", "Time Point 2", "Time Point 2")
+#cdsColumnNames <- c("Condition1", "Condition1", "Condition2", "Condition2")
 
 for (i in 1:(length(replicateList)-1)) {
 	replicateSet1Name = names(replicateList)[i]
     cdsColumnNamesRep1 <- c()
     for (replicateName in replicateList[[replicateSet1Name]]) {
-        cdsColumnNamesRep1 <- c(cdsColumnNamesRep1, "Time Point 1")
+        cdsColumnNamesRep1 <- c(cdsColumnNamesRep1, replicateSet1Name)
     }
     # Iterate through the time-points and run DESeq on each with each other time-point
 	#firstCol <- (3*i) - 1
@@ -47,7 +48,7 @@ for (i in 1:(length(replicateList)-1)) {
         replicateSet2Name = names(replicateList)[j]
         cdsColumnNamesRep2 <- c()
         for (replicateName in replicateList[[replicateSet2Name]]) {
-            cdsColumnNamesRep2 <- c(cdsColumnNamesRep2, "Time Point 2")
+            cdsColumnNamesRep2 <- c(cdsColumnNamesRep2, replicateSet2Name)
         }
         cdsColumnNames <- c(cdsColumnNamesRep1, cdsColumnNamesRep2)
 		print(cdsColumnNames)
@@ -55,12 +56,11 @@ for (i in 1:(length(replicateList)-1)) {
 		#currentExperimentCols <- c(firstCol, firstCol + 1, secondCol, secondCol + 1)
 		currentDNaseSignalTable <- DNaseSignalTable[,c(replicateList[[replicateSet1Name]], replicateList[[replicateSet2Name]])]
 	    print(names(currentDNaseSignalTable))
-	
 		# Run DESeq
 		cds = newCountDataSet(currentDNaseSignalTable, cdsColumnNames)
 		cds = estimateSizeFactors(cds)
 		cds = estimateDispersions(cds)
-		res = nbinomTest(cds, "Time Point 1", "Time Point 2")
+		res = nbinomTest(cds, replicateSet1Name, replicateSet2Name)
 		resSig = res[res$padj < 0.05, ]
 		
 		# Output results
