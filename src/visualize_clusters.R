@@ -14,7 +14,7 @@ library(gplots)
 args <- commandArgs(trailingOnly = TRUE)
 input_file <- args[1]
 output_file <- args[2]
-
+header <- args[3]
 data = read.table(input_file,header=TRUE,sep='\t')
 
 
@@ -37,7 +37,7 @@ rowcol_sort_data = row_sort_data[,col_sort_ind]
 
 CairoPNG(plot_name,width=8,height=10,units="in",res=300)
 heatmap.2(as.matrix(rowcol_sort_data), rowsep=0, colsep=0, sepwidth=c(0,0), dendrogram='none', trace='none', Rowv=FALSE, Colv=FALSE, xlab='Samples', ylab='Peaks', margins=c(12,8),labRow=c(""),scale="row")
-title('Hierarchically Clustered Peaks and Samples')
+title(paste('Hierarchically Clustered Peaks and Samples:',header,sep=' '))
 dev.off()
 
 # Say finished
