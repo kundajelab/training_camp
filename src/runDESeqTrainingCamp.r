@@ -52,7 +52,9 @@ for(contrast_index in seq(1,5))
 	write.table(ds,file=paste(outputFileNamePrefix,"/",comparison_name,".txt",sep=""),quote=FALSE,row.names=TRUE,col.names=TRUE,sep='\t') 
 	ds=na.omit(ds)
 	sig=ds[ds$padj<padjust_thresh,]
-	write.table(sig,file=paste(outputFileNamePrefix,"/",comparison_name,".txt.sigPeakNames",sep=""),quote=FALSE,row.names=TRUE,col.names=TRUE,sep='\t')
+	peaks_sig=rownames(sig)
+	peaks_sig=do.call(rbind, strsplit(peaks_sig, '_'))
+	write.table(peaks_sig,file=paste(outputFileNamePrefix,"/DE",comparison_name,".txt.sigPeakNames",sep=""),quote=FALSE,row.names=FALSE,col.names=FALSE,sep='\t')
 	   
 }
 
