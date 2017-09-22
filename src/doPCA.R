@@ -22,9 +22,9 @@ for (i in seq(1,numComponentsToFocusOn)) {
     write.table(data.pca$rotation[,i],paste("pc",i,"_rotation.txt",sep=""),quote=FALSE,col.names=FALSE,row.names=TRUE)
     for (j in seq(i+1,numComponentsToFocusOn)) {
         component_j = data.pca$x[,j]
-	CairoPNG(paste(paste("PC",i,"vs",j,sep="_"),".png", sep=""))
+	CairoPNG(paste(paste("PC",i,"vs",j,sep="_"),".png", sep=""),width=8, units='in',height=8,units='in',res="160")
         plot(component_i,component_j,xlab=paste("Component",i,sep=""), ylab=paste("Component",j,sep=""),col=batches[,var],pch=16)
-        text(component_i,component_j,names(data),pos=3,cex=0.5)
+        text(component_i,component_j,names(data),pos=3,cex=1)
         dev.off()
     }
 }
