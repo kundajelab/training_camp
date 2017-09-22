@@ -15,8 +15,8 @@ args <- commandArgs(trailingOnly = TRUE)
 input_file <- args[1]
 output_file <- args[2]
 
-data = read.table(input_file)
-#data = data[, seq(1, 18, 3)]
+data = read.table(input_file,header=TRUE,sep='\t')
+
 
 # Cluster Rows
 d =  dist(data, method='euclidean')
@@ -24,10 +24,10 @@ row_hclust = hclust(d, method='ward')
 row_sort_ind = row_hclust$order
 
 # Cluster Columns
-#d =  dist(t(data), method='euclidean')
-#col_hclust = hclust(d, method='average')
-#col_sort_ind = col_hclust$order
-col_sort_ind = seq(1, ncol(data))
+d =  dist(t(data), method='euclidean')
+col_hclust = hclust(d, method='average')
+col_sort_ind = col_hclust$order
+
 
 # Plot
 plot_name = output_file
@@ -36,10 +36,10 @@ rowcol_sort_data = row_sort_data[,col_sort_ind]
 
 
 CairoPNG(plot_name,width=8,height=10,units="in",res=300)
-heatmap.2(as.matrix(rowcol_sort_data), rowsep=0, colsep=0, sepwidth=c(0,0), dendrogram='none', trace='none', Rowv=FALSE, Colv=FALSE, xlab='Time Points', ylab='Peaks', margins=c(12,8))
+heatmap.2(as.matrix(rowcol_sort_data), rowsep=0, colsep=0, sepwidth=c(0,0), dendrogram='none', trace='none', Rowv=TRUE, Colv=TRUE, xlab='Samples', ylab='Peaks', margins=c(12,8),labCol=c(""))
 title('Hierarchically Clustered Peaks and Time Points')
 dev.off()
 
 # Say finished
-#print(sprintf('Done. Plot is called %s', plot_name))
+print(sprintf('Done. Plot is called %s', plot_name))
 
