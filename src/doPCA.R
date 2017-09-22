@@ -6,6 +6,7 @@ batchesFile <- args[2]
 var <-args[3]
 data <- read.table(inpFile, header=TRUE, sep='\t')
 batches=read.table(batchesFile,header=TRUE,sep='\t')
+batches$Salt=factor(batches$Salt)
 data.pca=prcomp(t(data),center=FALSE,scale=TRUE)
 CairoPNG("PCA_scree_plot.png")
 barplot(100*data.pca$sdev^2/sum(data.pca$sdev^2),las=2,xlab="",ylab="% Variance Explained")
