@@ -36,7 +36,7 @@ c.JupyterHub.log_file = '/var/log/jupyterhub.log'
 
 # specify users and admin
 #c.Authenticator.whitelist = {'anna','cs','johnny','irene'}#, 'myself', 'I'}
-c.Authenticator.admin_users = {'anna','cs','johnny','irene','jin','anshul'}#)#, 'myself'}
+#c.Authenticator.admin_users = {'anna','cs','johnny','irene','jin','anshul'}#)#, 'myself'}
 
 # start single-user notebook servers in ~/assignments,
 # with ~/assignments/Welcome.ipynb as the default landing page
