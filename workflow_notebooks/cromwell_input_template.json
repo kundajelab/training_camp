@@ -1,0 +1,16 @@
+{
+    "atac.pipeline_type": "atac",
+    "atac.genome_tsv": "/saccer3/saccer3.txt",
+    "atac.fastqs_rep1_R1": ["REP1_R1_PLACEHOLDER"],
+    "atac.fastqs_rep1_R2": ["REP1_R2_PLACEHOLDER"],
+    "atac.fastqs_rep2_R1": ["REP2_R1_PLACEHOLDER"],
+    "atac.fastqs_rep2_R2": ["REP2_R2_PLACEHOLDER"],
+    "atac.disable_ataqc": true,
+    "atac.paired_end": true,
+    "atac.enable_idr": true,
+    "atac.idr_thresh": 0.05,
+    "atac.bowtie2_cpu": 2,
+    "atac.filter_cpu": 2,
+    "atac.bam2ta_cpu": 2,
+    "atac.xcor_cpu": 2
+}
