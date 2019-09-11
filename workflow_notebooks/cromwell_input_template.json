@@ -9,8 +9,9 @@
     "atac.paired_end": true,
     "atac.enable_idr": true,
     "atac.idr_thresh": 0.05,
-    "atac.bowtie2_cpu": 2,
-    "atac.filter_cpu": 2,
-    "atac.bam2ta_cpu": 2,
-    "atac.xcor_cpu": 2
+    "atac.bowtie2_cpu": 4,
+    "atac.filter_cpu": 4,
+    "atac.bam2ta_cpu": 4,
+    "atac.xcor_cpu": 4,
+    "atac.keep_irregular_chr_in_bfilt_peak":true
 }
