@@ -5,7 +5,7 @@
     "atac.fastqs_rep1_R2": ["REP1_R2_PLACEHOLDER"],
     "atac.fastqs_rep2_R1": ["REP2_R1_PLACEHOLDER"],
     "atac.fastqs_rep2_R2": ["REP2_R2_PLACEHOLDER"],
-    "atac.disable_ataqc": true,
+    "atac.disable_ataqc": false,
     "atac.paired_end": true,
     "atac.enable_idr": true,
     "atac.idr_thresh": 0.05,
